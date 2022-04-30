@@ -1,0 +1,241 @@
+//App.js
+
+import React from 'react'
+import {View,Text,ScrollView,TextInput,StyleSheet,Button,SectionList} from 'react-native'
+import List from './components/List'
+
+class App extends React.Component{
+
+
+  constructor(){
+    super()
+    this.state={
+      
+  firstNames:[
+  {
+      name:"Ashok",
+      key:"1",
+      number:"293892912001"
+    },
+  {
+      name:"Namit",
+      key:"2",
+      number:"2381229192"
+    },
+  {
+      name:"Akshay",
+      key:"3",
+      number:"2189381921"
+    },
+  {
+      name:"Praveen",
+      key:"4",
+      number:"23823912389"
+    },
+  {
+      name:"Akshit",
+      key:"5",
+      number:"8921932938"
+    },
+  {
+      name:"Rajan",
+      key:"6",
+      number:"2383191238939"
+    },
+  {
+      name:"Gagan",
+      key:"7",
+      number:"13289123891238"
+    },
+  {
+      name:"Praveen",
+      key:"8",
+      number:"23823912389"
+    },
+  {
+      name:"Akshit",
+      key:"9",
+      number:"8921932938"
+    },
+    {
+      name:"Rajan",
+      key:"10",
+      number:"2383191238939"
+    },
+    {
+      name:"Gagan",
+      key:"11",
+      number:"13289123891238"
+    },
+    {
+      name:"Gagan",
+      key:"12",
+      number:"13289123891238"
+    },
+    {
+      name:"Praveen",
+      key:"13",
+      number:"23823912389"
+    },
+    {
+      name:"Akshit",
+      key:"14",
+      number:"8921932938"
+    },
+    {
+      name:"Rajan",
+      key:"15",
+      number:"2383191238939"
+    },
+    {
+      name:"Gagan",
+      key:"16",
+      number:"13289123891238"
+    },
+  ],
+
+  name:'',
+  phone:''
+        
+        }
+  }
+
+
+  styles=StyleSheet.create({
+    component:{
+      backgroundColor:"lightyellow",
+      textAlign:"left",
+      fontFamily:"Segoe UI",
+      padding:"10px",
+      fontSize:"20px",
+      fontWeight:"bold"
+    },
+    navBar:{
+      display:"flex",
+      justifyContent:"space-between",
+      fontFamily:"Segoe UI",
+    },
+     inputStyle:{
+        borderColor:"black",
+        borderWidth:"1px",
+        padding:"10px",
+        margin:"10px"
+      }
+
+
+  })
+
+
+  delNumFn=(id)=>{
+    var cList=this.state.firstNames.filter((val)=>val.key != id)
+    this.setState({
+      firstNames:cList,
+    })
+
+  }
+
+  addContact=()=>{
+
+    var newContact=[...this.state.firstNames,{name:this.state.name}]
+    // newContact.push(
+    //   {
+    //     name:this.state.name,
+    //     key:this.state.firstNames[-1].key+1,
+    //     number:this.state.phone
+    //   }
+    // )
+    this.setState({
+      firstNames:newContact,
+      name:'',
+      phone:''
+    })
+    
+  }
+
+  handleChangeName(value){
+    this.setState({
+      name:value
+    })
+  }
+
+  handleChangePhone=value=>{
+    this.setState({
+      phone:value
+    })
+  }
+
+  
+  render(){
+    return(
+      <View>
+      <View style={this.styles.navBar}>
+      <Text style={this.styles.component}>Contact List</Text>
+      <View style={{textAlign:"center"}}>
+      <TextInput placeholder="Enter Name" value={this.state.name} onChangeText={()=>this.handleChangeName(this.value)} style={this.styles.inputStyle}/>
+      <TextInput placeholder="Enter Number " value={this.state.phone} onChangeText={()=>this.handleChangePhone(this.value)} keyboardType="numeric" textContentType="number" style={this.styles.inputStyle}/>
+      </View>
+      <Button onPress={()=>this.addContact()}  title="Add New Contact"/>
+
+      </View>
+      <ScrollView>
+      {
+        
+
+        <SectionList 
+        sections={[{
+          title:'',
+          data:this.state.firstNames
+          }]}
+          renderSectionHeader={obj =><Text>{obj.section.title}</Text>}
+        renderItem={obj => <List name={obj.item.name} number={obj.item.number} delNum={()=>this.delNumFn(obj.item.key)} />} />
+      }
+      </ScrollView>
+      </View>
+    )
+  }
+}
+
+
+
+
+export default App
+
+
+
+
+
+
+//LIst.js
+
+import React from 'react'
+import {Text,View,StyleSheet,Button} from 'react-native'
+
+const styles={
+  itemView:{
+      padding:"5px",
+      backgroundColor:"lightgreen",
+      color:"white",
+      display:"flex"
+  },
+  itemName:{
+    fontSize:"15px",
+    color:"black"
+  },
+  itemNumber:{
+    color:"black"
+  }
+}
+function List (props){
+  return(
+    <View style={styles.itemView}>
+    <View>
+      <Text style={styles.itemName}>{props.name}</Text>
+      <Text style={styles.itemNumber}>+91{props.number}</Text>
+      <Text style={styles.itemNumber}>{props.delNum}</Text>
+    </View>
+      <Button title="Delete" onPress={props.delNum} />
+    </View>
+  )
+}
+
+export default List
